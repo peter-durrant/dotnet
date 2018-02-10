@@ -17,6 +17,19 @@ The are multiple strategies available:
 Since it is likely that unit test loggers with either be mocked or simplified from a deployment example then, in the latter case, a suitable App.Config should be
 created in the unit test project.
 
+### Link to App.Config
+
+The [ModelTest](./ModelTest/ModelTest.csproj) project file contains a link to the [App.Config](./Logger/App.config) in the [Logger](./Logger/Logger.csproj)
+project.
+
+```xml
+ <ItemGroup>
+    <None Include="..\Logger\App.config">
+      <Link>App.config</Link>
+    </None>
+</ItemGroup>
+```
+
 ## Testing
 
 The [App.Config](./Logger/App.config) is configured for console output only:
