@@ -5,7 +5,7 @@ using CsvHelper.TypeConversion;
 using Hdd.CsvProcessor;
 using NUnit.Framework;
 
-namespace CsvProcessorTest
+namespace Hdd.CsvProcessorTest
 {
     [TestFixture]
     public class ImporterTests
