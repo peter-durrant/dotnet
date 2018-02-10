@@ -25,11 +25,11 @@ public IEnumerable<T> ImportCsv<T, TClassMap>(string filename) where TClassMap :
 
 The CSV test files describe the column names and input records.
 
-The test files [TestData.csv](./CsvpPocessorTest/Data/TestData.csv) and [TestDataCurrency.csv](./CsvpPocessorTest/Data/TestDataCurrency.csv) describe data that has columns called
+The test files [TestData.csv](./CsvpProcessorTest/Data/TestData.csv) and [TestDataCurrency.csv](./CsvpProcessorTest/Data/TestDataCurrency.csv) describe data that has columns called
 * Name
 * Value
 
-The two files contain essentially the same data - a `Name` and a `Value`, where the `Value` in [TestData.csv](./CsvpPocessorTest/Data/TestData.csv) is represented as a double value, and the `Value` in [TestDataCurrency.csv](./CsvpPocessorTest/Data/TestDataCurrency.csv) as a currency (`£` character + `double` value).
+The two files contain essentially the same data - a `Name` and a `Value`, where the `Value` in [TestData.csv](./CsvpProcessorTest/Data/TestData.csv) is represented as a double value, and the `Value` in [TestDataCurrency.csv](./CsvpProcessorTest/Data/TestDataCurrency.csv) as a currency (`£` character + `double` value).
 
 ### Automatic Mapping
 
