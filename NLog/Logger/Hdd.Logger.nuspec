@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<package>
+  <metadata>
+    <id>Package</id>
+    <version>1.0.0</version>
+    <authors>Peter Durrant (Hdd)</authors>
+    <owners>Peter Durrant (Hdd)</owners>
+    <projectUrl>https://github.com/peter-durrant/dotnet/tree/master/NLog</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NLog Wrapper</description>
+    <releaseNotes>NLog Wrapper initial release.</releaseNotes>
+    <copyright>Copyright 2018 Hdd</copyright>
+    <tags>NLog</tags>
+    <dependencies>
+      <dependency id="NLog" version="4.4.12" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\Hdd.Logger.dll.config" target="lib/net47/" />
+  </files>
+</package>
