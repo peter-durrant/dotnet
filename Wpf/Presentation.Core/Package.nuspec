@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+
+<package>
+  <metadata>
+    <id>Hdd.Presentation.Core</id>
+    <version>1.0.0</version>
+    <authors>Peter Durrant (Hdd)</authors>
+    <owners>Peter Durrant (Hdd)</owners>
+    <projectUrl>https://github.com/peter-durrant/dotnet/tree/master/Wpf</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WPF extensions</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2018 Hdd</copyright>
+    <tags>WPF</tags>
+  </metadata>
+</package>
