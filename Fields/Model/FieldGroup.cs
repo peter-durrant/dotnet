@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Model
+namespace Hdd.Model
 {
     public class FieldGroup : IFieldGroup
     {

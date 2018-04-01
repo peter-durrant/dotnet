@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using Model;
-using Model.Converters;
+using Hdd.Model;
+using Hdd.Model.Converters;
 using NUnit.Framework;
 
-namespace ModelTest
+namespace Hdd.ModelTest
 {
     [TestFixture]
     public class FieldTests

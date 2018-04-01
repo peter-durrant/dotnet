@@ -1,8 +1,8 @@
-﻿using Hdd.Presentation.Core;
-using Model;
-using Model.Converters;
+﻿using Hdd.Model;
+using Hdd.Model.Converters;
+using Hdd.Presentation.Core;
 
-namespace WpfApp
+namespace Hdd.WpfApp
 {
     public class ViewModel : ViewModelBase
     {

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Model
+namespace Hdd.Model
 {
     public interface IConverter<T> : IConverter
     {

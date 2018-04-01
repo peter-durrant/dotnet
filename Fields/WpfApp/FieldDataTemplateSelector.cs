@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using Model;
+using Hdd.Model;
 
-namespace WpfApp
+namespace Hdd.WpfApp
 {
     public class FieldDataTemplateSelector : DataTemplateSelector
     {

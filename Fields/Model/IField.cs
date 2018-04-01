@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Model
+﻿namespace Hdd.Model
 {
     public interface IField<T> : IField
     {

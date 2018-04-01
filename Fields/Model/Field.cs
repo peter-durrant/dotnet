@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Model
+namespace Hdd.Model
 {
     public class Field<T> : IField<T>, INotifyPropertyChanged
     {
@@ -41,6 +41,8 @@ namespace Model
             OnPropertyChanged(nameof(RawValue));
         }
 
+        public Type FieldType => typeof(T);
+
         public T Value
         {
             get => _value;
@@ -68,7 +70,6 @@ namespace Model
         }
 
         public bool HasValue { get; private set; }
-        public Type FieldType => typeof(T);
 
         public event PropertyChangedEventHandler PropertyChanged;
 

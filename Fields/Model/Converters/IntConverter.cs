@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Model.Converters
+namespace Hdd.Model.Converters
 {
     public class IntConverter : IConverter<int>
     {

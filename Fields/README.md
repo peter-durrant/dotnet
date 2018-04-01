@@ -4,7 +4,7 @@ This code demonstrates a structure of fields. The root fields are a `FieldGroup`
 of type `FieldGroup`. This structure allows a tree of fields to be defined that could represent structured values such as application settings or configuration
 of application behaviour.
 
-`FieldGroup` is defined in [IField.cs](./Model/FieldGroup.cs).
+`FieldGroup` is defined in [FieldGroup.cs](./Model/FieldGroup.cs).
 
 ## Field Structure
 
@@ -39,31 +39,31 @@ The view implements a number of data templates for each variation of `Field` tha
 Typical numeric or string data templates may share a generic template such as the `DefaultFieldTemplate`. This shows field values in text boxes.
 
 ```xml
- <DataTemplate x:Key="DefaultFieldTemplate" DataType="{x:Type model:IField}">
-      <Grid Background="Aqua">
-          <StackPanel>
-              <Label x:Name="FieldName" Content="{Binding Id}" />
-              <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
-              <TextBox x:Name="FieldValue" Text="{Binding Value}" IsEnabled="False" />
-              <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
-          </StackPanel>
-      </Grid>
-  </DataTemplate>
+<DataTemplate x:Key="DefaultFieldTemplate" DataType="{x:Type model:IField}">
+    <Grid Background="Aqua">
+        <StackPanel>
+            <Label x:Name="FieldName" Content="{Binding Id}" />
+            <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox x:Name="FieldValue" Text="{Binding Value}" IsEnabled="False" />
+            <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
+        </StackPanel>
+    </Grid>
+</DataTemplate>
 ```
 
 A more specific version can be used for boolean fields so that values can be displayed or set using a checkbox.
 
 ```xml
-        <DataTemplate x:Key="BoolFieldTemplate" DataType="{x:Type model:IField}">
-            <Grid Background="Aqua">
-                <StackPanel>
-                    <Label x:Name="FieldName" Content="{Binding Id}" />
-                    <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <CheckBox x:Name="FieldValue" IsChecked="{Binding Value}" />
-                    <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
+<DataTemplate x:Key="BoolFieldTemplate" DataType="{x:Type model:IField}">
+    <Grid Background="Aqua">
+        <StackPanel>
+            <Label x:Name="FieldName" Content="{Binding Id}" />
+            <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
+            <CheckBox x:Name="FieldValue" IsChecked="{Binding Value}" />
+            <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
+        </StackPanel>
+    </Grid>
+</DataTemplate>
 ```
 
 ### Defining the Data Template
@@ -82,26 +82,26 @@ The selector requires a method to choose the best template by overriding the `Se
 is used, otherwise the `DefaultFieldTemplate` is used (e.g. compatible with `int` and `double` fields).
 
 ```c#
-        public override DataTemplate SelectTemplate(object item, DependencyObject container)
-        {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
-
-            if (!(item is IField field))
-            {
-                throw new InvalidOperationException($"Unrecognised type {item.GetType().Name} expected {nameof(IField)}");
-            }
-
-            if (field is IField<bool>)
-            {
-                return BoolFieldTemplate;
-            }
-
-            return DefaultFieldTemplate;
-        }
+public override DataTemplate SelectTemplate(object item, DependencyObject container)
+{
+    if (item == null)
+    {
+        throw new ArgumentNullException(nameof(item));
     }
+
+    if (!(item is IField field))
+    {
+        throw new InvalidOperationException($"Unrecognised type {item.GetType().Name} expected {nameof(IField)}");
+    }
+
+    if (field is IField<bool>)
+    {
+        return BoolFieldTemplate;
+    }
+
+    return DefaultFieldTemplate;
+}
+}
 ```
 
 ### Selecting Data Template
@@ -110,7 +110,7 @@ The way to choose the appropriate template based on the field type is using the 
 reference to the data template.
 
 ```xml
-        <wpfApp:FieldDataTemplateSelector x:Key="FieldDataTemplateSelector"
-                                          DefaultFieldTemplate="{StaticResource DefaultFieldTemplate}"
-                                          BoolFieldTemplate="{StaticResource BoolFieldTemplate}" />
+<wpfApp:FieldDataTemplateSelector x:Key="FieldDataTemplateSelector"
+                                  DefaultFieldTemplate="{StaticResource DefaultFieldTemplate}"
+                                  BoolFieldTemplate="{StaticResource BoolFieldTemplate}" />
 ```

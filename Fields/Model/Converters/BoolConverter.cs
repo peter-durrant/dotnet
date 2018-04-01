@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Model.Converters
+namespace Hdd.Model.Converters
 {
     public class BoolConverter : IConverter<bool>
     {

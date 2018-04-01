@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:model="clr-namespace:Model;assembly=Model"
-        xmlns:wpfApp="clr-namespace:WpfApp"
+        xmlns:model="clr-namespace:Hdd.Model;assembly=Hdd.Model"
+        xmlns:wpfApp="clr-namespace:Hdd.WpfApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="550" Width="525">
     <Window.Resources>
         <DataTemplate x:Key="DefaultFieldTemplate" DataType="{x:Type model:IField}">
             <Grid Background="Aqua">
