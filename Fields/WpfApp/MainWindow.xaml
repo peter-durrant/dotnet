@@ -1,0 +1,53 @@
+﻿<Window x:Class="WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:model="clr-namespace:Model;assembly=Model"
+        xmlns:wpfApp="clr-namespace:WpfApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate x:Key="DefaultFieldTemplate" DataType="{x:Type model:IField}">
+            <Grid Background="Aqua">
+                <StackPanel>
+                    <Label x:Name="FieldName" Content="{Binding Id}" />
+                    <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox x:Name="FieldValue" Text="{Binding Value}" IsEnabled="False" />
+                    <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="BoolFieldTemplate" DataType="{x:Type model:IField}">
+            <Grid Background="Aqua">
+                <StackPanel>
+                    <Label x:Name="FieldName" Content="{Binding Id}" />
+                    <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
+                    <CheckBox x:Name="FieldValue" IsChecked="{Binding Value}" />
+                    <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <wpfApp:FieldDataTemplateSelector x:Key="FieldDataTemplateSelector"
+                                          DefaultFieldTemplate="{StaticResource DefaultFieldTemplate}"
+                                          BoolFieldTemplate="{StaticResource BoolFieldTemplate}" />
+
+        <DataTemplate x:Key="FieldGroupTemplate" DataType="{x:Type model:IFieldGroup}">
+            <StackPanel Background="GreenYellow">
+                <Label x:Name="FieldName" Content="{Binding Id}" />
+                <ListView ItemsSource="{Binding Fields}"
+                          ItemTemplateSelector="{StaticResource FieldDataTemplateSelector}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <ContentControl Content="{Binding Field}" ContentTemplate="{StaticResource DefaultFieldTemplate}" />
+            <ContentControl Content="{Binding FieldGroup}"
+                            ContentTemplate="{StaticResource FieldGroupTemplate}" />
+        </StackPanel>
+    </Grid>
+</Window>
