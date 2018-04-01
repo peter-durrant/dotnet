@@ -22,7 +22,7 @@ namespace WpfApp
                 throw new InvalidOperationException($"Unrecognised type {item.GetType().Name} expected {nameof(IField)}");
             }
 
-            if (field.FieldType == typeof(bool))
+            if (field is IField<bool>)
             {
                 return BoolFieldTemplate;
             }

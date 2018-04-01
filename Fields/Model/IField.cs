@@ -12,6 +12,5 @@ namespace Model
         string Id { get; }
         string RawValue { get; set; }
         bool HasValue { get; }
-        Type FieldType { get; }
     }
 }
