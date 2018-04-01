@@ -101,7 +101,6 @@ public override DataTemplate SelectTemplate(object item, DependencyObject contai
 
     return DefaultFieldTemplate;
 }
-}
 ```
 
 ### Selecting Data Template
