@@ -9,6 +9,7 @@ namespace Hdd.WpfApp
     {
         public DataTemplate DefaultFieldTemplate { get; set; }
         public DataTemplate BoolFieldTemplate { get; set; }
+        public DataTemplate EnumFieldTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -25,6 +26,11 @@ namespace Hdd.WpfApp
             if (field is IField<bool>)
             {
                 return BoolFieldTemplate;
+            }
+
+            if (field.FieldType.IsEnum)
+            {
+                return EnumFieldTemplate;
             }
 
             return DefaultFieldTemplate;

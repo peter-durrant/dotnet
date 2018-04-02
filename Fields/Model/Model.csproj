@@ -36,12 +36,15 @@
   <ItemGroup>
     <Compile Include="Converters\BoolConverter.cs" />
     <Compile Include="Converters\DoubleConverter.cs" />
+    <Compile Include="Converters\EnumConverter.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="FieldGroup.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="IEnum.cs" />
     <Compile Include="IField.cs" />
     <Compile Include="IFieldGroup.cs" />
     <Compile Include="Converters\IntConverter.cs" />
+    <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

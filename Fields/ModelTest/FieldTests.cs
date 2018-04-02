@@ -9,6 +9,19 @@ namespace Hdd.ModelTest
     [TestFixture]
     public class FieldTests
     {
+        private static object[] FieldTypes =
+        {
+            new object[] {new Field<int>("id", new IntConverter()), typeof(int)},
+            new object[] {new Field<double>("id", new DoubleConverter()), typeof(double)},
+            new object[] {new Field<bool>("id", new BoolConverter()), typeof(bool)}
+        };
+
+        [TestCaseSource(nameof(FieldTypes))]
+        public void Field_TypeIs_ConstructedType(IField field, Type expectedType)
+        {
+            Assert.AreEqual(expectedType, field.FieldType);
+        }
+
         [Test]
         public void Field_Constructor_FieldHasId()
         {

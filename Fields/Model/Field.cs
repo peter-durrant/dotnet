@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -16,6 +17,7 @@ namespace Hdd.Model
             _converter = converter;
             _value = default(T);
             HasValue = false;
+
             OnPropertyChanged(nameof(HasValue));
             OnPropertyChanged(nameof(Value));
             OnPropertyChanged(nameof(RawValue));
@@ -54,6 +56,8 @@ namespace Hdd.Model
                 OnPropertyChanged(nameof(RawValue));
             }
         }
+
+        public IEnumerable<T> Values => _converter.Values;
 
         public string Id { get; }
 

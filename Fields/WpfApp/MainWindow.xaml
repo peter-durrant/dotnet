@@ -30,9 +30,21 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Key="EnumFieldTemplate" DataType="{x:Type model:IField}">
+            <Grid Background="Aqua">
+                <StackPanel>
+                    <Label x:Name="FieldName" Content="{Binding Id}" />
+                    <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
+                    <ListBox x:Name="FieldValue" SelectedItem="{Binding Value}" ItemsSource="{Binding Values}" />
+                    <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
         <wpfApp:FieldDataTemplateSelector x:Key="FieldDataTemplateSelector"
                                           DefaultFieldTemplate="{StaticResource DefaultFieldTemplate}"
-                                          BoolFieldTemplate="{StaticResource BoolFieldTemplate}" />
+                                          BoolFieldTemplate="{StaticResource BoolFieldTemplate}"
+                                          EnumFieldTemplate="{StaticResource EnumFieldTemplate}" />
 
         <DataTemplate x:Key="FieldGroupTemplate" DataType="{x:Type model:IFieldGroup}">
             <StackPanel Background="GreenYellow">

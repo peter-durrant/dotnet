@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Hdd.Model.Converters
 {
     public class IntConverter : IConverter<int>
     {
+        public IEnumerable<int> Values { get; }
+
         public bool Convert(string valueStr, out int value)
         {
             var success = int.TryParse(valueStr, out var convertedValue);

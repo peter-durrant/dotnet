@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace Hdd.Model.Converters
 {
@@ -14,6 +15,8 @@ namespace Hdd.Model.Converters
         {
             _culture = culture;
         }
+
+        public IEnumerable<double> Values { get; }
 
         public bool Convert(string valueStr, out double value)
         {
