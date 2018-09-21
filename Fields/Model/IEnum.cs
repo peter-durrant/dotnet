@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Hdd.Model
+﻿namespace Hdd.Model
 {
     public interface IEnum<T>
     {
