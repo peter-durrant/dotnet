@@ -8,18 +8,25 @@ namespace Hdd.View
 {
     public class DialogFactory : IDialogFactory
     {
-        public Window Owner { get; set; }
+        private readonly ReflectionDialogFactory _reflectionDialogFactory;
+
+        public DialogFactory()
+        {
+            _reflectionDialogFactory = new ReflectionDialogFactory();
+        }
+
+        public Window Owner { private get; set; }
 
         public IWindow Create(Type dialogType)
         {
             if (dialogType != typeof(ChildWindow))
             {
-                throw new NotSupportedException();
+                return _reflectionDialogFactory.Create(dialogType);
             }
 
             var childViewModel = new ChildViewModel();
             var childWindow = new ChildWindow(Owner, childViewModel);
-            return childWindow;
+            return new WindowWrapper(childWindow);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Navigation;
 using Hdd.View;
 using Hdd.ViewModel;
 using MvvmDialogs;
@@ -16,10 +15,6 @@ namespace Hdd.WpfApp
             MainWindow = new MainWindow(mainViewModel);
             dialogFactory.Owner = MainWindow;
             MainWindow.Show();
-        }
-
-        private void App_OnLoadCompleted(object sender, NavigationEventArgs e)
-        {
         }
     }
 }
