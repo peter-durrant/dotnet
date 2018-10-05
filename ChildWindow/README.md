@@ -64,7 +64,7 @@ The [`DialogTypeLocator`](./View/DialogTypeLocator.cs) class is required to map 
 
 ## ScaleConverter
 
-If needed, the [`ScaleConverter`](./View/Converters/ScaleConverters.cs) is used to convert the `ActualHeight` or `ActualWidth` from the `Owner` window and scale the child window (dialog) by a factor. In this example `0.9` is used to represent 90% of the original size.
+If needed, the [`ScaleConverter`](./View/Converters/ScaleConverter.cs) is used to convert the `ActualHeight` or `ActualWidth` from the `Owner` window and scale the child window (dialog) by a factor. In this example `0.9` is used to represent 90% of the original size.
 
 ```xml
 ```xml
