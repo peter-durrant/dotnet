@@ -22,7 +22,7 @@ On creation the `Owner` of the window is `null` so the binding has no effect. Th
 
 ## Setting the owner on the dialog window
 
-The constructor to the `ChildWindow` (dialog) takes a `Window owner`. This allows the `Owner` property of the window to be set before the call to `InitializeComponent()`. This ensures that the WPF binding can be evaluated. See (ChildWindow.cs)[./View/ChildWindow.xaml.cs].
+The constructor to the `ChildWindow` (dialog) takes a `Window owner`. This allows the `Owner` property of the window to be set before the call to `InitializeComponent()`. This ensures that the WPF binding can be evaluated. See [ChildWindow.cs](./View/ChildWindow.xaml.cs).
 
 ```c#
 public partial class ChildWindow : Window
@@ -45,9 +45,9 @@ In order to provide custom behaviour when creating windows - in this case to set
 
 The new `DialogFactory` is responsible for creating `Window` objects using either the default behaviour using the `ReflectionDialogFactory` or custom behaviour when requiring this additional functionality.
 
-The `DialogFactory` class (DialogFactory.cs)[./View/DialogFactory.cs] continues to use the `ReflectionDialogFactory` for all `Window` objects, except for those recognised as requiring the `Owner` to be set.
+The [`DialogFactory`](./View/DialogFactory.cs) class continues to use the `ReflectionDialogFactory` for all `Window` objects, except for those recognised as requiring the `Owner` to be set.
 
-Since the `DialogFactory` can set the `Owner`, this must be initialised using the parent window, in this case in (App.xaml.cs)[./WpfApp/App.xaml.cs].
+Since the `DialogFactory` can set the `Owner`, this must be initialised using the parent window, in this case in [App.xaml.cs](./WpfApp/App.xaml.cs).
 
 ```c#
 var dialogFactory = new DialogFactory();
@@ -60,11 +60,11 @@ MainWindow.Show();
 
 ## DialogTypeLocator
 
-The (`DialogTypeLocator`)[./View/DialogTypeLocator.cs] class is required to map view model types to view types.
+The [`DialogTypeLocator`](./View/DialogTypeLocator.cs) class is required to map view model types to view types.
 
 ## ScaleConverter
 
-If needed, the (`ScaleConverter`)[./View/Converters/ScaleConverters.cs] is used to convert the `ActualHeight` or `ActualWidth` from the `Owner` window and scale the child window (dialog) by a factor. In this example `0.9` is used to represent 90% of the original size.
+If needed, the [`ScaleConverter`](./View/Converters/ScaleConverters.cs) is used to convert the `ActualHeight` or `ActualWidth` from the `Owner` window and scale the child window (dialog) by a factor. In this example `0.9` is used to represent 90% of the original size.
 
 ```xml
 ```xml
