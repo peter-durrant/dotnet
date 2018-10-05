@@ -31,6 +31,7 @@ namespace Demo
             var weakReferenceShortLivedViewModel = new WeakReference(shortLivedViewModel);
 
             longLivedViewModel.Log = "Raise event on LongLivedViewModel";
+            // expect shortLivedViewModel to handle event
             longLivedViewModel.RaiseEvent();
 
             longLivedViewModel.Log = "Clear reference to ShortLivedViewModel";
@@ -43,6 +44,7 @@ namespace Demo
             longLivedViewModel.Log = $"ShortLivedViewModel.IsAlive = {weakReferenceShortLivedViewModel.IsAlive}";
 
             longLivedViewModel.Log = "Raise event on LongLivedViewModel";
+            // shortLivedViewModel will only handle the event if not using the WeakEventManager
             longLivedViewModel.RaiseEvent();
         }
     }
