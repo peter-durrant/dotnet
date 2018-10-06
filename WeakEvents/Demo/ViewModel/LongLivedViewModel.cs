@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Hdd.WeakEvents.Demo.ViewModel
 {
-    public class LongLivedViewModel : INotifyPropertyChanged
+    public sealed class LongLivedViewModel : INotifyPropertyChanged
     {
         private readonly List<string> _log = new List<string>();
 
@@ -28,7 +28,7 @@ namespace Hdd.WeakEvents.Demo.ViewModel
             EventOnLongLivedViewModel?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

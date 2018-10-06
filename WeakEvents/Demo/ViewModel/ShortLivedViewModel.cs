@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace Hdd.WeakEvents.Demo.ViewModel
 {
-    public class ShortLivedViewModel : INotifyPropertyChanged
+    public sealed class ShortLivedViewModel : INotifyPropertyChanged
     {
         private readonly LongLivedViewModel _longLivedViewModel;
 
@@ -15,18 +15,24 @@ namespace Hdd.WeakEvents.Demo.ViewModel
 
             if (!useWeakEventManager)
             {
-                // memory leak - no garbage collection of ShortLivedViewModel due to subscription to LongLivedViewModel_EventOnLongLivedViewModel
+                // potential memory leak - no garbage collection of ShortLivedViewModel due to subscription
+                // to LongLivedViewModel_EventOnLongLivedViewModel
                 longLivedViewModel.EventOnLongLivedViewModel += LongLivedViewModel_EventOnLongLivedViewModel;
             }
             else
             {
-                WeakEventManager<LongLivedViewModel, EventArgs>.AddHandler(longLivedViewModel, nameof(LongLivedViewModel.EventOnLongLivedViewModel), LongLivedViewModel_EventOnLongLivedViewModel);
+                // avoids memory leak
+                WeakEventManager<LongLivedViewModel, EventArgs>.
+                    AddHandler(
+                        longLivedViewModel,
+                        nameof(LongLivedViewModel.EventOnLongLivedViewModel),
+                        LongLivedViewModel_EventOnLongLivedViewModel);
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
