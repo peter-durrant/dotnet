@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace Demo.ViewModel
+namespace Hdd.WeakEvents.Demo.ViewModel
 {
     public class ShortLivedViewModel : INotifyPropertyChanged
     {

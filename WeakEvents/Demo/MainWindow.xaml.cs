@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
-using Demo.ViewModel;
+using Hdd.WeakEvents.Demo.ViewModel;
 
-namespace Demo
+namespace Hdd.WeakEvents.Demo
 {
     public partial class MainWindow : Window
     {

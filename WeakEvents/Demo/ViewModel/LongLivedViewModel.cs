@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Demo.ViewModel
+namespace Hdd.WeakEvents.Demo.ViewModel
 {
     public class LongLivedViewModel : INotifyPropertyChanged
     {

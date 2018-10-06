@@ -72,7 +72,9 @@ private void TestWeakEventManager(LongLivedViewModel longLivedViewModel)
 }
 ```
 
-### Strongly referenced events
+### Strongly referenced events - output
+
+Note that the strong reference via subscription in `ShortLivedViewModel` to `LongLivedViewModel` has prevented the `ShortLivedViewModel` from being garbage collected. Hence `ShortLivedViewModel.IsAlive = True`.
 
 ```
 Using strong reference
@@ -85,7 +87,11 @@ Raise event on LongLivedViewModel
 ShortLivedViewModel - handled event
 ```
 
-### Weak events
+### Weak events - output
+
+Note that the weak reference via subscription in `ShortLivedViewModel` to `LongLivedViewModel` has enabled the `ShortLivedViewModel` to be garbage collected.
+Hence `ShortLivedViewModel.IsAlive = False` in the log indicates that the object has been garbage collected and cannot handle the event raised by `LongLivedViewModel`.
+This is also confirmed by the absence of `ShortLivedViewModel - handled event` in the log.
 
 ```
 Using WeakEventManager

@@ -1,11 +1,11 @@
-﻿<Window x:Class="Demo.MainWindow"
+﻿<Window x:Class="Hdd.WeakEvents.Demo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModel="clr-namespace:Demo.ViewModel"
+        xmlns:viewModel1="clr-namespace:Hdd.WeakEvents.Demo.ViewModel"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=viewModel:LongLivedViewModel, IsDesignTimeCreatable=True}"
+        d:DataContext="{d:DesignInstance Type=viewModel1:LongLivedViewModel, IsDesignTimeCreatable=True}"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <StackPanel>

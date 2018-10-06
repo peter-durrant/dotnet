@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Demo
+namespace Hdd.WeakEvents.Demo
 {
     public partial class App : Application
     {
