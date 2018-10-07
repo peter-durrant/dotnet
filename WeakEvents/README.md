@@ -1,6 +1,6 @@
 # WeakEventHandler
 
-This project demonstrates the difference between using strongly referenced events and weak events using either the generic `WeakEventHandler` or a custom `WeakEventHandler` [EventOnLongLivedViewModelWeakEventManager](./Demo/EventOnLongLivedViewModelWeakEventManager).
+This project demonstrates the difference between using strongly referenced events and weak events using either the generic `WeakEventHandler` or a custom `WeakEventHandler` [EventOnLongLivedViewModelWeakEventManager](./Demo/EventOnLongLivedViewModelWeakEventManager.cs).
 
 This project has two main classes:
 1. `LongLivedViewModel`
