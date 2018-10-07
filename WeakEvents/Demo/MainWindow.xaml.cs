@@ -7,7 +7,7 @@ namespace Hdd.WeakEvents.Demo
     public partial class MainWindow : Window
     {
         private LongLivedViewModel _longLivedViewModel;
-        private bool _testWeakEventManager;
+        private EventPattern _testWeakEventManager;
 
         public MainWindow()
         {
@@ -17,7 +17,7 @@ namespace Hdd.WeakEvents.Demo
         private void ToggleEventHandlingMechanism(object sender, RoutedEventArgs e)
         {
             _longLivedViewModel = new LongLivedViewModel();
-            _testWeakEventManager = !_testWeakEventManager;
+            _testWeakEventManager = (EventPattern) ((int)(_testWeakEventManager + 1) % 3);
 
             DataContext = _longLivedViewModel;
 
@@ -26,7 +26,19 @@ namespace Hdd.WeakEvents.Demo
 
         private void TestWeakEventManager(LongLivedViewModel longLivedViewModel)
         {
-            longLivedViewModel.Log = _testWeakEventManager ? "Using WeakEventManager" : "Using strong reference";
+            switch (_testWeakEventManager)
+            {
+                case EventPattern.StrongReference:
+                    longLivedViewModel.Log = "Using strong reference";
+                    break;
+                case EventPattern.GenericWeakEventManager:
+                    longLivedViewModel.Log = "Using generic WeakEventManager";
+                    break;
+                case EventPattern.CustomEventManager:
+                    longLivedViewModel.Log = "Using custom WeakEventManager";
+                    break;
+            }
+
             var shortLivedViewModel = new ShortLivedViewModel(longLivedViewModel, _testWeakEventManager);
             var weakReferenceShortLivedViewModel = new WeakReference(shortLivedViewModel);
 

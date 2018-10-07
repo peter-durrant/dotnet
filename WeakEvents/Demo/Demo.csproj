@@ -50,6 +50,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EventOnLongLivedViewModelWeakEventManager.cs" />
+    <Compile Include="EventPattern.cs" />
     <Compile Include="ViewModel\LongLivedViewModel.cs" />
     <Compile Include="ViewModel\ShortLivedViewModel.cs" />
     <Page Include="MainWindow.xaml">

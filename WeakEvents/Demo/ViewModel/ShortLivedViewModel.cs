@@ -9,24 +9,34 @@ namespace Hdd.WeakEvents.Demo.ViewModel
     {
         private readonly LongLivedViewModel _longLivedViewModel;
 
-        public ShortLivedViewModel(LongLivedViewModel longLivedViewModel, bool useWeakEventManager)
+        public ShortLivedViewModel(LongLivedViewModel longLivedViewModel, EventPattern eventPattern)
         {
             _longLivedViewModel = longLivedViewModel ?? throw new ArgumentNullException(nameof(longLivedViewModel));
 
-            if (!useWeakEventManager)
+            switch (eventPattern)
             {
-                // potential memory leak - no garbage collection of ShortLivedViewModel due to subscription
-                // to LongLivedViewModel_EventOnLongLivedViewModel
-                longLivedViewModel.EventOnLongLivedViewModel += LongLivedViewModel_EventOnLongLivedViewModel;
-            }
-            else
-            {
-                // avoids memory leak
-                WeakEventManager<LongLivedViewModel, EventArgs>.
-                    AddHandler(
+                case EventPattern.StrongReference:
+                    // potential memory leak - no garbage collection of ShortLivedViewModel due to subscription
+                    // to LongLivedViewModel_EventOnLongLivedViewModel
+                    longLivedViewModel.EventOnLongLivedViewModel += LongLivedViewModel_EventOnLongLivedViewModel;
+                    break;
+                case EventPattern.GenericWeakEventManager:
+                    // avoids memory leak
+                    // generic weak event manager is less performant than a custom weak event manager
+                    WeakEventManager<LongLivedViewModel, EventArgs>.AddHandler(
                         longLivedViewModel,
                         nameof(LongLivedViewModel.EventOnLongLivedViewModel),
                         LongLivedViewModel_EventOnLongLivedViewModel);
+                    break;
+                case EventPattern.CustomEventManager:
+                    // avoids memory leak
+                    // custom weak event manager is most performant
+                    EventOnLongLivedViewModelWeakEventManager.AddHandler(
+                        longLivedViewModel,
+                        LongLivedViewModel_EventOnLongLivedViewModel);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(eventPattern), eventPattern, null);
             }
         }
 
