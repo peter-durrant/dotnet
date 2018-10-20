@@ -19,6 +19,7 @@ For the prism `ViewModelLocator` the view and view model code must be placed in 
 
 ## Application
 
-The application should derive from `PrismApplication`.
+The application should be a `PrismApplication` - see the containing tag in [App.xaml](./src/MyPrismApplication/App.xaml). This will require `override` methods to 
+be defined in [App.xaml.cs](./src/MyPrismApplication/App.xaml.cs).
 
 Remove the `StartupUri` attribute from [App.xaml](./src/MyPrismApplication/App.xaml) and use `CreateShell` in the [App.xaml.cs](./src/MyPrismApplication/App.xaml.cs) to load the correct view.
