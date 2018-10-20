@@ -10,3 +10,4 @@ Project|Description
 [Fields](./Fields) | Demonstrates structured data and WPF binding that could be used to manage settings
 [WeakEvents](./WeakEvents) | Demonstrates the use of the WeakEventManager versus strong referenced subscription
 [ChildWindow](./ChildWindow) | Demonstrates a dialog setting its size proportional to the parent window
+[Prism](./Prism) | Demonstrates a Prism WPF application
