@@ -7,15 +7,16 @@
       <Field id="intField" type="int"/>
       <Field id="doubleField" type="double"/>
       <Field id="boolField" type="bool"/>
-      <!--<Field id="enumField" type="Options.Option">
+      <Field id="enumField" type="Hdd.Model.Option">
         <Mask>
-          <Value>Option.Option1</Value>
-          <Value>Option.Option2</Value>
+          <Value>Option3</Value>
+          <Value>Option4</Value>
         </Mask>
-      </Field>-->
+      </Field>
     </FieldGroup>
     <FieldGroup id="another configuration field group">
       <Field id="intField" type="int"/>
+      <Field id="enumField" type="Hdd.Model.Option"/>
     </FieldGroup>
   </Fields>
 </Page>

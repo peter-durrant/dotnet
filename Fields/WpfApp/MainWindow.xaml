@@ -14,12 +14,14 @@
 
     </Window.Resources>
     <Grid>
-        <StackPanel>
-            <ContentControl Content="{Binding Field}" ContentTemplate="{StaticResource DefaultFieldTemplate}" />
-            <ContentControl Content="{Binding FieldGroup}"
+        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <StackPanel>
+                <ContentControl Content="{Binding Field}" ContentTemplate="{StaticResource DefaultFieldTemplate}" />
+                <ContentControl Content="{Binding FieldGroup}"
                             ContentTemplate="{StaticResource FieldGroupTemplate}" />
-            <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{StaticResource FieldDataTemplateSelector}"/>
-            <ItemsControl ItemsSource="{Binding FieldGroup.FieldGroups}" ItemTemplate="{StaticResource FieldGroupTemplate}"/>
-        </StackPanel>
+                <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{StaticResource FieldDataTemplateSelector}"/>
+                <ItemsControl ItemsSource="{Binding FieldGroup.FieldGroups}" ItemTemplate="{StaticResource FieldGroupTemplate}"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

@@ -5,13 +5,12 @@ using System.Linq;
 
 namespace Hdd.Model.Converters
 {
-    public class EnumConverter<TEnum, T> : IConverter<TEnum>
+    public class EnumConverter<TEnum> : IConverter<TEnum>
         where TEnum : struct
-        where T : IEnum<TEnum>
     {
-        private readonly T _options;
+        private readonly IEnum<TEnum> _options;
 
-        public EnumConverter(T options)
+        public EnumConverter(IEnum<TEnum> options)
         {
             _options = options;
         }
@@ -26,13 +25,10 @@ namespace Hdd.Model.Converters
             if (Values.Any())
             {
                 success = Enum.TryParse(valueStr, out convertedValue);
-                if (success)
-                {
-                    success = _options.Values.Contains(convertedValue);
-                }
+                if (success) success = _options.Values.Contains(convertedValue);
             }
 
-            value = success ? convertedValue : default(TEnum);
+            value = success ? convertedValue : default;
             return success;
         }
 

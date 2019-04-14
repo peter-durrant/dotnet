@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,8 +29,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -37,14 +40,16 @@
     <Compile Include="Converters\BoolConverter.cs" />
     <Compile Include="Converters\DoubleConverter.cs" />
     <Compile Include="Converters\EnumConverter.cs" />
+    <Compile Include="EnumValues.cs" />
     <Compile Include="Field.cs" />
+    <Compile Include="FieldBuilder.cs" />
     <Compile Include="FieldGroup.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="IEnum.cs" />
     <Compile Include="IField.cs" />
     <Compile Include="IFieldGroup.cs" />
     <Compile Include="Converters\IntConverter.cs" />
-    <Compile Include="Options.cs" />
+    <Compile Include="Option.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

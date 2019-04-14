@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Xml.Serialization;
 using Hdd.Model;
@@ -17,9 +16,9 @@ namespace Hdd.WpfApp
             var intField = new Field<int, IntConverter>("intField");
             var doubleField = new Field<double, DoubleConverter>("doubleField");
             var boolField = new Field<bool, BoolConverter>("boolField");
-            var enumOptions = new Options {Mask = Options.Option.Option3 | Options.Option.Option2};
-            var enumConverter = new EnumConverter<Options.Option, Options>(enumOptions);
-            var enumField = new Field<Options.Option>("optionField", enumConverter);
+            var enumOptions = new EnumValues<Option> {Mask = Option.Option3 | Option.Option2};
+            var enumConverter = new EnumConverter<Option>(enumOptions);
+            var enumField = new Field<Option>("optionField", enumConverter);
 
             FieldGroup = new Model.FieldGroup("field group");
             FieldGroup.Fields.Add(intField);
@@ -46,35 +45,16 @@ namespace Hdd.WpfApp
                 var page = (Page) serializer.Deserialize(reader);
                 reader.Close();
 
-                foreach (var field in page.Fields.Field) Fields.Add(Build(field));
+                foreach (var field in page.Fields.Field)
+                    Fields.Add(FieldBuilder.Build(field.id, field.type, field.Mask));
 
                 foreach (var fieldGroup in page.Fields.FieldGroup)
                 {
                     var fg = new Model.FieldGroup(fieldGroup.id);
-                    foreach (var field in fieldGroup.Field) fg.AddField(Build(field));
+                    foreach (var field in fieldGroup.Field)
+                        fg.AddField(FieldBuilder.Build(field.id, field.type, field.Mask));
                     FieldGroup.AddFieldGroup(fg);
                 }
-            }
-        }
-
-        private IField Build(Field field)
-        {
-            switch (field.type)
-            {
-                case "int":
-                    return new Field<int, IntConverter>(field.id);
-
-                case "double":
-                    return new Field<double, DoubleConverter>(field.id);
-
-                case "bool":
-                    return new Field<bool, BoolConverter>(field.id);
-
-                case "enum":
-                    throw new NotImplementedException("todo");
-
-                default:
-                    throw new InvalidOperationException("Invalid field type");
             }
         }
     }
