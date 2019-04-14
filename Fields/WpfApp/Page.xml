@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Page xmlns="http://tempuri.org/Page.xsd">
+  <Fields>
+    <Field id="intField" type="int"/>
+
+    <FieldGroup id="configuration field group">
+      <Field id="intField" type="int"/>
+      <Field id="doubleField" type="double"/>
+      <Field id="boolField" type="bool"/>
+      <!--<Field id="enumField" type="Options.Option">
+        <Mask>
+          <Value>Option.Option1</Value>
+          <Value>Option.Option2</Value>
+        </Mask>
+      </Field>-->
+    </FieldGroup>
+    <FieldGroup id="another configuration field group">
+      <Field id="intField" type="int"/>
+    </FieldGroup>
+  </Fields>
+</Page>

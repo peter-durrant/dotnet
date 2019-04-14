@@ -1,0 +1,10 @@
+﻿<ResourceDictionary x:Class="View.Fields"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Field.xaml"/>
+        <ResourceDictionary Source="BoolField.xaml"/>
+        <ResourceDictionary Source="EnumField.xaml"/>
+        <ResourceDictionary Source="FieldGroup.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

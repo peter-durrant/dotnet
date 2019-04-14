@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Page"
+    targetNamespace="http://tempuri.org/Page.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/Page.xsd"
+    xmlns:mstns="http://tempuri.org/Page.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:complexType name="Mask">
+    <xs:sequence>
+      <xs:element name="Value" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Field">
+    <xs:sequence>
+      <xs:element name="Mask" type="Mask" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="FieldGroup">
+    <xs:sequence>
+      <xs:element name="Field" type="Field" minOccurs="1" maxOccurs="unbounded"/>
+      <!-- unused but required for a workaround or XSD.exe bug
+           https://support.microsoft.com/en-gb/help/2486643/sco-unable-to-generate-a-temporary-class-result-1-error-when-you-execu -->
+      <xs:element name="dummyElement" minOccurs="0" nillable="true" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="Fields">
+    <xs:sequence>
+      <xs:element name="Field" type="Field" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="FieldGroup" type="FieldGroup" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="Page">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Fields" type="Fields" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

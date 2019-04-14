@@ -3,112 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:model="clr-namespace:Hdd.Model;assembly=Hdd.Model"
-        xmlns:wpfApp="clr-namespace:Hdd.WpfApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="525">
     <Window.Resources>
-        <DataTemplate x:Key="DefaultFieldTemplate" DataType="{x:Type model:IField}">
-            <Grid Background="Aqua">
-                <StackPanel>
-                    <Label x:Name="FieldName" Content="{Binding Id}" />
-                    <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox x:Name="FieldValue" Text="{Binding Value}" IsEnabled="False" />
-                    <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="BoolFieldTemplate" DataType="{x:Type model:IField}">
-            <Grid Background="Aqua">
-                <StackPanel>
-                    <Label x:Name="FieldName" Content="{Binding Id}" />
-                    <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <CheckBox x:Name="FieldValue" IsChecked="{Binding Value}" />
-                    <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="EnumFieldTemplate" DataType="{x:Type model:IField}">
-            <Grid Background="Aqua">
-                <StackPanel>
-                    <Label x:Name="FieldName" Content="{Binding Id}" />
-                    <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <ListBox x:Name="FieldValue" SelectedItem="{Binding Value}" ItemsSource="{Binding Values}" />
-                    <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-
-        <wpfApp:FieldDataTemplateSelector x:Key="FieldDataTemplateSelector"
-                                          DefaultFieldTemplate="{StaticResource DefaultFieldTemplate}"
-                                          BoolFieldTemplate="{StaticResource BoolFieldTemplate}"
-                                          EnumFieldTemplate="{StaticResource EnumFieldTemplate}" />
-
-        <DataTemplate x:Key="FieldGroupTemplate" DataType="{x:Type model:IFieldGroup}">
-            <StackPanel Background="GreenYellow">
-                <Label x:Name="FieldName" Content="{Binding Id}" />
-                <ListView ItemsSource="{Binding Fields}"
-                          ItemTemplateSelector="{StaticResource FieldDataTemplateSelector}" />
-            </StackPanel>
-        </DataTemplate>
-
-        <DataTemplate x:Key="ItemTemplate" DataType="{x:Type model:IField}">
-            <Grid Background="Orange" Margin="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="1" Content="{Binding Id}" Width="300" Height="80" Padding="0"
-                        Margin="5"
-                        BorderThickness="0" />
-                <ToggleButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="->" Margin="0"
-                              BorderThickness="0" Padding="0"
-                              IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" />
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="ItemsTemplate" DataType="{x:Type model:IFieldGroup}">
-            <StackPanel Background="LightSlateGray" Margin="0">
-                <ListBox ItemsSource="{Binding Fields}"
-                         ItemTemplate="{StaticResource ItemTemplate}" BorderThickness="0" Margin="0">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                        <ContentPresenter />
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                </ListBox>
-            </StackPanel>
-        </DataTemplate>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/View;component/Fields.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
 
     </Window.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0">
+        <StackPanel>
             <ContentControl Content="{Binding Field}" ContentTemplate="{StaticResource DefaultFieldTemplate}" />
             <ContentControl Content="{Binding FieldGroup}"
                             ContentTemplate="{StaticResource FieldGroupTemplate}" />
-        </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="1">
-            <ContentControl Content="{Binding FieldGroup}"
-                            ContentTemplate="{StaticResource ItemsTemplate}" />
+            <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{StaticResource FieldDataTemplateSelector}"/>
+            <ItemsControl ItemsSource="{Binding FieldGroup.FieldGroups}" ItemTemplate="{StaticResource FieldGroupTemplate}"/>
         </StackPanel>
     </Grid>
 </Window>

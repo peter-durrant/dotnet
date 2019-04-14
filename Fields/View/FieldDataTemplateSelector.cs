@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Hdd.Model;
 
-namespace Hdd.WpfApp
+namespace View
 {
     public class FieldDataTemplateSelector : DataTemplateSelector
     {

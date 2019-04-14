@@ -1,0 +1,1 @@
+xsd.exe Page.xsd /c 

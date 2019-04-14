@@ -1,0 +1,15 @@
+﻿<ResourceDictionary x:Class="View.Field"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:model="clr-namespace:Hdd.Model;assembly=Hdd.Model">
+    <DataTemplate x:Key="DefaultFieldTemplate" DataType="{x:Type model:IField}">
+        <Grid Background="Aqua">
+            <StackPanel>
+                <Label x:Name="FieldName" Content="{Binding Id}" />
+                <TextBox x:Name="FieldRawValue" Text="{Binding RawValue, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="FieldValue" Text="{Binding Value}" IsEnabled="False" />
+                <TextBox x:Name="FieldHasValue" Text="{Binding HasValue, Mode=OneWay}" IsEnabled="False" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>
