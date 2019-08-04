@@ -58,8 +58,14 @@ namespace Hdd.CustomControls
             }
         }
 
-        private void UpdateScrollInfo(Size availableSize, Size extent)
+        private Size UpdateScrollInfo(Size availableSize)
         {
+            var extent = Orientation.Size(_itemSize.Width(Orientation) * _itemsPerRow,
+                _itemSize.Height(Orientation) * _rowCount);
+
+            var boundedAvailableSize = new Size(Math.Min(availableSize.Width, extent.Width),
+                Math.Min(availableSize.Height, extent.Height));
+
             if (ViewportHeight != 0.0 && VerticalOffset != 0.0 && VerticalOffset + ViewportHeight + 1.0 >= ExtentHeight)
             {
                 _offset = new Point(_offset.X, extent.Height - availableSize.Height);
@@ -79,13 +85,13 @@ namespace Hdd.CustomControls
                 ScrollOwner?.InvalidateScrollInfo();
             }
 
-            if (extent == _extent)
+            if (extent != _extent)
             {
-                return;
+                _extent = extent;
+                ScrollOwner?.InvalidateScrollInfo();
             }
 
-            _extent = extent;
-            ScrollOwner?.InvalidateScrollInfo();
+            return boundedAvailableSize;
         }
 
         #region VirtualizingPanel
@@ -98,14 +104,12 @@ namespace Hdd.CustomControls
                 case NotifyCollectionChangedAction.Replace:
                 {
                     RemoveInternalChildRange(args.Position.Index, args.ItemUICount);
-
                     break;
                 }
 
                 case NotifyCollectionChangedAction.Move:
                 {
                     RemoveInternalChildRange(args.OldPosition.Index, args.ItemUICount);
-
                     break;
                 }
 
@@ -129,19 +133,10 @@ namespace Hdd.CustomControls
         protected override Size MeasureOverride(Size availableSize)
         {
             CalculateItemProperties(availableSize);
-
-            var extent = Orientation.Size(_itemSize.Width(Orientation) * _itemsPerRow,
-                _itemSize.Height(Orientation) * _rowCount);
-
-            var boundedAvailableSize = new Size(Math.Min(availableSize.Width, extent.Width),
-                Math.Min(availableSize.Height, extent.Height));
-            UpdateScrollInfo(boundedAvailableSize, extent);
-
             var (startIndex, endIndex) = UpdateItemRange();
             VirtualizeItems(startIndex, endIndex);
             CleanupItems(startIndex, endIndex);
-
-            return boundedAvailableSize;
+            return UpdateScrollInfo(availableSize);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
@@ -190,7 +185,6 @@ namespace Hdd.CustomControls
                 case HorizontalAlignment.Left:
                 {
                     horizontalContentAlignOffset = 0;
-
                     break;
                 }
 
@@ -198,8 +192,7 @@ namespace Hdd.CustomControls
                 case HorizontalAlignment.Stretch:
                 {
                     horizontalContentAlignOffset =
-                        (_itemsPerRow - itemsOnLastRow) * _itemSize.Width(Orientation) / 2;
-
+                        (_itemsPerRow - itemsOnLastRow) * _itemSize.Width(Orientation) / 2f;
                     break;
                 }
 
@@ -207,7 +200,6 @@ namespace Hdd.CustomControls
                 {
                     horizontalContentAlignOffset =
                         (_itemsPerRow - itemsOnLastRow) * _itemSize.Width(Orientation);
-
                     break;
                 }
 
@@ -229,7 +221,6 @@ namespace Hdd.CustomControls
                 case VerticalAlignment.Top:
                 {
                     verticalContentAlignOffset = 0;
-
                     break;
                 }
 
@@ -237,8 +228,7 @@ namespace Hdd.CustomControls
                 case VerticalAlignment.Stretch:
                 {
                     verticalContentAlignOffset =
-                        (_itemsPerRow - itemsOnLastRow) * _itemSize.Width(Orientation) / 2;
-
+                        (_itemsPerRow - itemsOnLastRow) * _itemSize.Width(Orientation) / 2f;
                     break;
                 }
 
@@ -246,7 +236,6 @@ namespace Hdd.CustomControls
                 {
                     verticalContentAlignOffset =
                         (_itemsPerRow - itemsOnLastRow) * _itemSize.Width(Orientation);
-
                     break;
                 }
 
