@@ -62,6 +62,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="VirtualizingWrapPanel.cs" />
+    <Compile Include="VirtualizingWrapPanel2.cs" />
+    <Compile Include="VirtualizingWrapPanel1.cs" />
+    <Compile Include="VirtualizingWrapPanel3.cs" />
+    <Compile Include="VirtualizingWrapPanel4.cs" />
+    <Compile Include="VirtualizingWrapPanel5.cs" />
+    <Compile Include="VirtualizingWrapPanel6.cs" />
     <Compile Include="VirtualizingWrapPanelExtensions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
