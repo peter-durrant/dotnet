@@ -10,15 +10,18 @@ namespace Hdd.CustomControls
 {
     public class VirtualizingWrapPanel : VirtualizingPanel, IScrollInfo
     {
-        private Size _extent = new Size(0.0, 0.0);
         private Size _itemSize;
         private int _itemsPerRow;
-        private Point _offset = new Point(0.0, 0.0);
         private int _rowCount;
         private Size _viewport = new Size(0.0, 0.0);
+        private Size _extent = new Size(0.0, 0.0);
+        private Point _offset = new Point(0.0, 0.0);
 
         private ItemsControl ItemsControl => ItemsControl.GetItemsOwner(this);
         private ReadOnlyCollection<object> Items => ((ItemContainerGenerator)ItemContainerGenerator).Items;
+
+        private IRecyclingItemContainerGenerator RecyclingItemContainerGenerator =>
+            (IRecyclingItemContainerGenerator)ItemContainerGenerator;
 
         private double LineScrollAmount => GetScrollUnit(this) == ScrollUnit.Pixel ? 16 : ItemScroll;
         private double MouseWheelScrollAmount => GetScrollUnit(this) == ScrollUnit.Pixel ? 48 : ItemScroll;
@@ -27,72 +30,6 @@ namespace Hdd.CustomControls
             GetScrollUnit(this) == ScrollUnit.Pixel ? ViewportHeight : _viewport.Height(Orientation);
 
         public double ItemScroll => _itemSize.Height(Orientation);
-
-        private void CalculateItemProperties(Size availableSize)
-        {
-            _itemSize = InternalChildren.Count == 0
-                ? CalculateItemSize(availableSize)
-                : InternalChildren[0].DesiredSize;
-            _itemsPerRow = !double.IsInfinity(availableSize.Width(Orientation))
-                ? Math.Max(1, (int)Math.Floor(availableSize.Width(Orientation) / _itemSize.Width(Orientation)))
-                : Items.Count;
-            _rowCount = (int)Math.Ceiling(Items.Count / (double)_itemsPerRow);
-        }
-
-        private Size CalculateItemSize(Size availableSize)
-        {
-            if (Items.Count == 0)
-            {
-                return new Size(0.0, 0.0);
-            }
-
-            using (ItemContainerGenerator.StartAt(ItemContainerGenerator.GeneratorPositionFromIndex(0),
-                GeneratorDirection.Forward, true))
-            {
-                var nextItem = (UIElement)ItemContainerGenerator.GenerateNext();
-                AddInternalChild(nextItem);
-                ItemContainerGenerator.PrepareItemContainer(nextItem);
-                nextItem.Measure(Orientation.Size(availableSize.Width(Orientation), double.PositiveInfinity));
-
-                return nextItem.DesiredSize;
-            }
-        }
-
-        private Size UpdateScrollInfo(Size availableSize)
-        {
-            var extent = Orientation.Size(_itemSize.Width(Orientation) * _itemsPerRow,
-                _itemSize.Height(Orientation) * _rowCount);
-
-            var boundedAvailableSize = new Size(Math.Min(availableSize.Width, extent.Width),
-                Math.Min(availableSize.Height, extent.Height));
-
-            if (ViewportHeight != 0.0 && VerticalOffset != 0.0 && VerticalOffset + ViewportHeight + 1.0 >= ExtentHeight)
-            {
-                _offset = new Point(_offset.X, extent.Height - availableSize.Height);
-                ScrollOwner?.InvalidateScrollInfo();
-            }
-
-            if (ViewportWidth != 0.0 && HorizontalOffset != 0.0 &&
-                HorizontalOffset + ViewportWidth + 1.0 >= ExtentWidth)
-            {
-                _offset = new Point(extent.Width - availableSize.Width, _offset.Y);
-                ScrollOwner?.InvalidateScrollInfo();
-            }
-
-            if (availableSize != _viewport)
-            {
-                _viewport = availableSize;
-                ScrollOwner?.InvalidateScrollInfo();
-            }
-
-            if (extent != _extent)
-            {
-                _extent = extent;
-                ScrollOwner?.InvalidateScrollInfo();
-            }
-
-            return boundedAvailableSize;
-        }
 
         #region VirtualizingPanel
 
@@ -128,7 +65,7 @@ namespace Hdd.CustomControls
 
         #endregion
 
-        #region WPF Custom Layout
+        #region FrameworkElement
 
         protected override Size MeasureOverride(Size availableSize)
         {
@@ -174,6 +111,184 @@ namespace Hdd.CustomControls
             }
 
             return finalSize;
+        }
+
+        #endregion
+
+        #region WPF Custom Layout
+
+        private void CalculateItemProperties(Size availableSize)
+        {
+            _itemSize = InternalChildren.Count == 0
+                ? CalculateItemSize(availableSize)
+                : InternalChildren[0].DesiredSize;
+            _itemsPerRow = !double.IsInfinity(availableSize.Width(Orientation))
+                ? Math.Max(1, (int)Math.Floor(availableSize.Width(Orientation) / _itemSize.Width(Orientation)))
+                : Items.Count;
+            _rowCount = (int)Math.Ceiling(Items.Count / (double)_itemsPerRow);
+        }
+
+        private Size CalculateItemSize(Size availableSize)
+        {
+            if (Items.Count == 0)
+            {
+                return new Size(0.0, 0.0);
+            }
+
+            using (ItemContainerGenerator.StartAt(ItemContainerGenerator.GeneratorPositionFromIndex(0),
+                GeneratorDirection.Forward, true))
+            {
+                var nextItem = (UIElement)ItemContainerGenerator.GenerateNext();
+                AddInternalChild(nextItem);
+                ItemContainerGenerator.PrepareItemContainer(nextItem);
+                nextItem.Measure(Orientation.Size(availableSize.Width(Orientation), double.PositiveInfinity));
+
+                return nextItem.DesiredSize;
+            }
+        }
+
+        private (int startIndex, int endIndex) UpdateItemRange()
+        {
+            if (!GetIsVirtualizing(ItemsControl))
+            {
+                return (startIndex: 0, endIndex: Items.Count - 1);
+            }
+
+            var viewportStartHeight = _offset.Y(Orientation);
+            var viewportEndHeight = _offset.Y(Orientation) + _viewport.Height(Orientation);
+
+            if (GetCacheLengthUnit(ItemsControl) == VirtualizationCacheLengthUnit.Pixel)
+            {
+                viewportStartHeight = Math.Max(viewportStartHeight - GetCacheLength(ItemsControl).CacheBeforeViewport,
+                    0.0);
+                viewportEndHeight = Math.Min(viewportEndHeight + GetCacheLength(ItemsControl).CacheAfterViewport,
+                    _extent.Height(Orientation));
+            }
+
+            var itemStartIndex = (int)Math.Floor(viewportStartHeight / _itemSize.Height(Orientation)) * _itemsPerRow;
+            var itemEndIndex = Math.Min(Items.Count,
+                (int)Math.Ceiling(viewportEndHeight / _itemSize.Height(Orientation)) * _itemsPerRow) - 1;
+
+            if (GetCacheLengthUnit(ItemsControl) == VirtualizationCacheLengthUnit.Page)
+            {
+                var visibleRows = (int)(_viewport.Height(Orientation) / _itemSize.Height(Orientation)) * _itemsPerRow;
+                itemStartIndex =
+                    Math.Max(itemStartIndex - (int)GetCacheLength(ItemsControl).CacheBeforeViewport * visibleRows, 0);
+                itemEndIndex = Math.Min(
+                    itemEndIndex + (int)GetCacheLength(ItemsControl).CacheAfterViewport * visibleRows,
+                    Items.Count - 1);
+            }
+            else if (GetCacheLengthUnit(ItemsControl) == VirtualizationCacheLengthUnit.Item)
+            {
+                itemStartIndex = Math.Max(itemStartIndex - (int)GetCacheLength(ItemsControl).CacheBeforeViewport, 0);
+                itemEndIndex = Math.Min(itemEndIndex + (int)GetCacheLength(ItemsControl).CacheAfterViewport,
+                    Items.Count - 1);
+            }
+
+            return (startIndex: itemStartIndex, endIndex: itemEndIndex);
+        }
+
+        private void VirtualizeItems(int startIndex, int endIndex)
+        {
+            var position = ItemContainerGenerator.GeneratorPositionFromIndex(startIndex);
+            var index = position.Offset == 0 ? position.Index : position.Index + 1;
+            using (ItemContainerGenerator.StartAt(position, GeneratorDirection.Forward, true))
+            {
+                while (true)
+                {
+                    if (startIndex <= endIndex)
+                    {
+                        var nextItem = (UIElement)ItemContainerGenerator.GenerateNext(out var isNewlyRealized);
+                        if (isNewlyRealized || !InternalChildren.Contains(nextItem))
+                        {
+                            if (index >= InternalChildren.Count)
+                            {
+                                AddInternalChild(nextItem);
+                            }
+                            else
+                            {
+                                InsertInternalChild(index, nextItem);
+                            }
+
+                            ItemContainerGenerator.PrepareItemContainer(nextItem);
+                            nextItem.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                        }
+
+                        ++startIndex;
+                        ++index;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void CleanupItems(int startIndex, int endIndex)
+        {
+            for (var index = InternalChildren.Count - 1; index >= 0; --index)
+            {
+                var positionFromChildIndex = new GeneratorPosition(index, 0);
+                var indexFromGeneratorPosition =
+                    ItemContainerGenerator.IndexFromGeneratorPosition(positionFromChildIndex);
+
+                if (startIndex >= indexFromGeneratorPosition &&
+                    endIndex <= indexFromGeneratorPosition)
+                {
+                    if (GetVirtualizationMode(ItemsControl) == VirtualizationMode.Recycling)
+                    {
+                        RecyclingItemContainerGenerator.Recycle(positionFromChildIndex, 1);
+                    }
+                    else
+                    {
+                        ItemContainerGenerator.Remove(positionFromChildIndex, 1);
+                    }
+
+                    RemoveInternalChildRange(index, 1);
+                }
+            }
+        }
+
+        private Size UpdateScrollInfo(Size availableSize)
+        {
+            var extent = Orientation.Size(
+                _itemSize.Width(Orientation) * _itemsPerRow,
+                _itemSize.Height(Orientation) * _rowCount);
+
+            availableSize = new Size(
+                Math.Min(availableSize.Width, extent.Width),
+                Math.Min(availableSize.Height, extent.Height));
+
+            if (ViewportHeight != 0.0 &&
+                VerticalOffset != 0.0 &&
+                VerticalOffset + ViewportHeight + 1.0 >= ExtentHeight)
+            {
+                _offset = new Point(_offset.X, extent.Height - availableSize.Height);
+                ScrollOwner?.InvalidateScrollInfo();
+            }
+
+            if (ViewportWidth != 0.0 &&
+                HorizontalOffset != 0.0 &&
+                HorizontalOffset + ViewportWidth + 1.0 >= ExtentWidth)
+            {
+                _offset = new Point(extent.Width - availableSize.Width, _offset.Y);
+                ScrollOwner?.InvalidateScrollInfo();
+            }
+
+            if (availableSize != _viewport)
+            {
+                _viewport = availableSize;
+                ScrollOwner?.InvalidateScrollInfo();
+            }
+
+            if (extent != _extent)
+            {
+                _extent = extent;
+                ScrollOwner?.InvalidateScrollInfo();
+            }
+
+            return availableSize;
         }
 
         private double HorizontalContentAlignOffset(int itemsOnLastRow)
@@ -246,116 +361,6 @@ namespace Hdd.CustomControls
             }
 
             return verticalContentAlignOffset;
-        }
-
-        #endregion
-
-        #region Item Virtualization
-
-        private void VirtualizeItems(int startIndex, int endIndex)
-        {
-            var position = ItemContainerGenerator.GeneratorPositionFromIndex(startIndex);
-            var index = position.Offset == 0 ? position.Index : position.Index + 1;
-            using (ItemContainerGenerator.StartAt(position, GeneratorDirection.Forward, true))
-            {
-                while (true)
-                {
-                    if (startIndex <= endIndex)
-                    {
-                        var nextItem = (UIElement)ItemContainerGenerator.GenerateNext(out var isNewlyRealized);
-                        if (isNewlyRealized || !InternalChildren.Contains(nextItem))
-                        {
-                            if (index >= InternalChildren.Count)
-                            {
-                                AddInternalChild(nextItem);
-                            }
-                            else
-                            {
-                                InsertInternalChild(index, nextItem);
-                            }
-
-                            ItemContainerGenerator.PrepareItemContainer(nextItem);
-                            nextItem.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                        }
-
-                        ++startIndex;
-                        ++index;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void CleanupItems(int startIndex, int endIndex)
-        {
-            for (var index = InternalChildren.Count - 1; index >= 0; --index)
-            {
-                var positionFromChildIndex = new GeneratorPosition(index, 0);
-                var indexFromGeneratorPosition =
-                    ItemContainerGenerator.IndexFromGeneratorPosition(positionFromChildIndex);
-
-                if (startIndex >= indexFromGeneratorPosition &&
-                    endIndex <= indexFromGeneratorPosition)
-                {
-                    if (GetVirtualizationMode(ItemsControl) == VirtualizationMode.Recycling)
-                    {
-                        RecyclingItemContainerGenerator.Recycle(positionFromChildIndex, 1);
-                    }
-                    else
-                    {
-                        ItemContainerGenerator.Remove(positionFromChildIndex, 1);
-                    }
-
-                    RemoveInternalChildRange(index, 1);
-                }
-            }
-        }
-
-        private IRecyclingItemContainerGenerator RecyclingItemContainerGenerator =>
-            (IRecyclingItemContainerGenerator)ItemContainerGenerator;
-
-        private (int startIndex, int endIndex) UpdateItemRange()
-        {
-            if (!GetIsVirtualizing(ItemsControl))
-            {
-                return (startIndex: 0, endIndex: Items.Count - 1);
-            }
-
-            var viewportStartHeight = _offset.Y(Orientation);
-            var viewportEndHeight = _offset.Y(Orientation) + _viewport.Height(Orientation);
-
-            if (GetCacheLengthUnit(ItemsControl) == VirtualizationCacheLengthUnit.Pixel)
-            {
-                viewportStartHeight = Math.Max(viewportStartHeight - GetCacheLength(ItemsControl).CacheBeforeViewport,
-                    0.0);
-                viewportEndHeight = Math.Min(viewportEndHeight + GetCacheLength(ItemsControl).CacheAfterViewport,
-                    _extent.Height(Orientation));
-            }
-
-            var itemStartIndex = (int)Math.Floor(viewportStartHeight / _itemSize.Height(Orientation)) * _itemsPerRow;
-            var itemEndIndex = Math.Min(Items.Count,
-                (int)Math.Ceiling(viewportEndHeight / _itemSize.Height(Orientation)) * _itemsPerRow) - 1;
-
-            if (GetCacheLengthUnit(ItemsControl) == VirtualizationCacheLengthUnit.Page)
-            {
-                var visibleRows = (int)(_viewport.Height(Orientation) / _itemSize.Height(Orientation)) * _itemsPerRow;
-                itemStartIndex =
-                    Math.Max(itemStartIndex - (int)GetCacheLength(ItemsControl).CacheBeforeViewport * visibleRows, 0);
-                itemEndIndex = Math.Min(
-                    itemEndIndex + (int)GetCacheLength(ItemsControl).CacheAfterViewport * visibleRows,
-                    Items.Count - 1);
-            }
-            else if (GetCacheLengthUnit(ItemsControl) == VirtualizationCacheLengthUnit.Item)
-            {
-                itemStartIndex = Math.Max(itemStartIndex - (int)GetCacheLength(ItemsControl).CacheBeforeViewport, 0);
-                itemEndIndex = Math.Min(itemEndIndex + (int)GetCacheLength(ItemsControl).CacheAfterViewport,
-                    Items.Count - 1);
-            }
-
-            return (startIndex: itemStartIndex, endIndex: itemEndIndex);
         }
 
         #endregion

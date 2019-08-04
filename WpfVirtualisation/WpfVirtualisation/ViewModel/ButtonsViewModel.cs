@@ -24,7 +24,7 @@ namespace WpfVirtualisation.ViewModel
 
             Task.Run(() =>
             {
-                for (var i = 0; i < 100000; i++)
+                for (var i = 0; i < 100001; i++)
                 {
                     buttons.Add(new ButtonViewModel($"Button {i}"));
                 }
