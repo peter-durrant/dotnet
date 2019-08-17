@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:module2="clr-namespace:Hdd.Module2">
+    <DataTemplate DataType="{x:Type module2:Module2Vm}">
+        <module2:Module2View/>
+    </DataTemplate>
+</ResourceDictionary>
