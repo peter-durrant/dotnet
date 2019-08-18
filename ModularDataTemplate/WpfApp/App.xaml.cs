@@ -11,7 +11,6 @@ namespace Hdd.WpfApp
             var types = ModuleLoadExtensions.GetLoadableTypes<IModule>();
             foreach (var type in types)
             {
-
                 var module = (IModule)Activator.CreateInstance(type);
                 module.Initialise();
             }

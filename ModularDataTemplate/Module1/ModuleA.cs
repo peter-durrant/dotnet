@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Reflection;
 using Hdd.ModuleCore;
 
 namespace Hdd.Module1
@@ -8,12 +7,8 @@ namespace Hdd.Module1
     {
         public void Initialise()
         {
-            var rd = new ResourceDictionary
-            {
-                Source = new Uri("pack://application:,,,/Hdd.Module1;component/Module1Dictionary.xaml", UriKind.Absolute)
-            };
-            Application.Current.Resources.MergedDictionaries.Add(rd);
-            Console.WriteLine("Hdd.Module1.Initialise");
+            ResourceDictionaryManager.MergeDictionary(Assembly.GetExecutingAssembly().GetName().Name,
+                "Module1Dictionary.xaml");
         }
     }
 }

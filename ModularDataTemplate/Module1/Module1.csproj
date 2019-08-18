@@ -54,10 +54,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Module1Dictionary.xaml">
+    <Page Include="Module1Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
+    </Page>
     <Page Include="Module1View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
