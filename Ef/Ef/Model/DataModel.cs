@@ -22,7 +22,7 @@ namespace Hdd.Ef.Model
 
         public IQueryable<Part> PartCollection()
         {
-            return _context.Parts.AsNoTracking();
+            return _context.Parts.Include(part => part.PartType).AsNoTracking();
         }
     }
 }

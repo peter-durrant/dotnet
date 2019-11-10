@@ -3,15 +3,33 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:Hdd.Ef.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        Closed="MainWindow_OnClosed">
+        Closed="MainWindow_OnClosed"
+        d:DataContext="{d:DesignInstance Type=viewModel:PartsViewModel, IsDesignTimeCreatable=False}">
     <Grid>
         <ListBox ItemsSource="{Binding PartCollection}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
+                    <StackPanel Width="200">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Status}" Value="None">
+                                        <Setter Property = "Background" Value="Blue"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="Ok">
+                                        <Setter Property = "Background" Value="Green"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="Error">
+                                        <Setter Property = "Background" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
                         <Label Content="{Binding Id}" FontStyle="Italic"/>
+                        <Label Content="{Binding PartType.Name}"/>
                         <Label Content="{Binding Name}" FontWeight="Bold"/>
                     </StackPanel>
                 </DataTemplate>
