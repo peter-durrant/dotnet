@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core", "Applica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualizeData.Module", "VisualizeData.Module\VisualizeData.Module.csproj", "{E4A47665-AA3D-4746-B316-9FA7833DF0F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel.Core", "ViewModel.Core\ViewModel.Core.csproj", "{0F72BA74-6D64-46A3-BE9C-EBB7862904C9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlPersistence.Module", "SqlPersistence.Module\SqlPersistence.Module.csproj", "{F2B53E37-0736-4DA0-A40A-D52403CECDCB}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{E4A47665-AA3D-4746-B316-9FA7833DF0F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4A47665-AA3D-4746-B316-9FA7833DF0F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4A47665-AA3D-4746-B316-9FA7833DF0F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F72BA74-6D64-46A3-BE9C-EBB7862904C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F72BA74-6D64-46A3-BE9C-EBB7862904C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F72BA74-6D64-46A3-BE9C-EBB7862904C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F72BA74-6D64-46A3-BE9C-EBB7862904C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F2B53E37-0736-4DA0-A40A-D52403CECDCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F2B53E37-0736-4DA0-A40A-D52403CECDCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2B53E37-0736-4DA0-A40A-D52403CECDCB}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,10 +1,10 @@
 ﻿using System;
-using Hdd.ViewModel.Core;
 using Hdd.VisualizeData.Module.Model;
+using Prism.Mvvm;
 
 namespace Hdd.VisualizeData.Module.ViewModel
 {
-    public class DisplayVm : BaseVm
+    public class DisplayVm : BindableBase
     {
         private readonly DisplayModel _model;
 

@@ -60,7 +60,6 @@
     <Compile Include="ApplicationCore.cs" />
     <Compile Include="IApplicationCore.cs" />
     <Compile Include="ILogger.cs" />
-    <Compile Include="IModule.cs" />
     <Compile Include="IPersistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

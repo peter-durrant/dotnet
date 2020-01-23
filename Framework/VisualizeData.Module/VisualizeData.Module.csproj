@@ -34,8 +34,14 @@
     <Reference Include="DryIoc, Version=4.0.7.0, Culture=neutral, PublicKeyToken=dfbf2bd50fcf7768, processorArchitecture=MSIL">
       <HintPath>..\packages\DryIoc.dll.4.0.7\lib\net45\DryIoc.dll</HintPath>
     </Reference>
+    <Reference Include="Prism, Version=7.2.0.1422, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.2.0.1422\lib\net45\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\DisplayModel.cs" />
@@ -47,10 +53,6 @@
     <ProjectReference Include="..\Application.Core\Application.Core.csproj">
       <Project>{9d551ed1-1fff-4009-b611-6d2f2e15b167}</Project>
       <Name>Application.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ViewModel.Core\ViewModel.Core.csproj">
-      <Project>{0f72ba74-6d64-46a3-be9c-ebb7862904c9}</Project>
-      <Name>ViewModel.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

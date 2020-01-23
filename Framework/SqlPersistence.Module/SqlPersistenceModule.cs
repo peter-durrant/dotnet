@@ -1,13 +1,19 @@
-﻿using DryIoc;
-using Hdd.Application.Core;
+﻿using Hdd.Application.Core;
+using Prism.Ioc;
+using Prism.Modularity;
 
 namespace Hdd.SqlPersistence.Module
 {
     public class SqlPersistenceModule : IModule
     {
-        public void Load(IRegistrator builder)
+        public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            builder.Register<IPersistence, SqlPersistence>();
+            containerRegistry.Register<IPersistence, SqlPersistence>();
+        }
+
+        public void OnInitialized(IContainerProvider containerProvider)
+        {
+            // noop
         }
     }
 }

@@ -1,16 +1,21 @@
-﻿using DryIoc;
-using Hdd.Application.Core;
-using Hdd.VisualizeData.Module.Model;
+﻿using Hdd.VisualizeData.Module.Model;
 using Hdd.VisualizeData.Module.ViewModel;
+using Prism.Ioc;
+using Prism.Modularity;
 
 namespace Hdd.VisualizeData.Module
 {
     public class VizualizeDataModule : IModule
     {
-        public void Load(IRegistrator builder)
+        public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            builder.Register<DisplayModel>();
-            builder.Register<DisplayVm>();
+            containerRegistry.Register<DisplayModel>();
+            containerRegistry.Register<DisplayVm>();
+        }
+
+        public void OnInitialized(IContainerProvider containerProvider)
+        {
+            // noop
         }
     }
 }

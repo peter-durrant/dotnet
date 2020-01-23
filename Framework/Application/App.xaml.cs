@@ -1,39 +1,51 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Application.Views;
-using DryIoc;
 using Hdd.Application.Core;
 using Hdd.SqlPersistence.Module;
 using Hdd.VisualizeData.Module;
 using Prism.DryIoc;
 using Prism.Ioc;
+using Prism.Modularity;
 
 namespace Application
 {
     public partial class App : PrismApplication
     {
-        private readonly IContainer _container;
-
-        public App()
+        protected override IModuleCatalog CreateModuleCatalog()
         {
-            _container = new Container();
+            var moduleCatalog = new ModuleCatalog();
+            moduleCatalog.AddModule(
+                new ModuleInfo
+                {
+                    ModuleName = typeof(SqlPersistenceModule).Name,
+                    ModuleType = typeof(SqlPersistenceModule).AssemblyQualifiedName
+                });
+            moduleCatalog.AddModule(
+                new ModuleInfo
+                {
+                    ModuleName = typeof(VizualizeDataModule).Name,
+                    ModuleType = typeof(VizualizeDataModule).AssemblyQualifiedName
+                });
+            return moduleCatalog;
+        }
 
-            Exit += (sender, args) => _container.Dispose();
+        protected override void OnInitialized()
+        {
+            var persistence = Container.Resolve<IPersistence>();
+            Console.WriteLine(persistence.Name);
+
+            base.OnInitialized();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            _container.Register<IModule, SqlPersistenceModule>();
-            _container.Register<IModule, VizualizeDataModule>();
-
-            foreach (var module in _container.ResolveMany<IModule>())
-            {
-                module.Load(_container);
-            }
+            // noop
         }
 
         protected override Window CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            return Container.Resolve<Shell>();
         }
     }
 }
