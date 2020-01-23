@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using Application.Views;
 using DryIoc;
 using Hdd.Application.Core;
@@ -12,27 +11,24 @@ namespace Application
 {
     public partial class App : PrismApplication
     {
+        private readonly IContainer _container;
+
         public App()
         {
-            var container = new Container();
-            container.Register<IModule, SqlPersistenceModule>();
-            container.Register<IModule, VizualizeDataModule>();
+            _container = new Container();
 
-            foreach (var module in container.ResolveMany<IModule>())
-            {
-                module.Load(container);
-            }
-
-            var persistence = container.Resolve<IPersistence>();
-
-            Console.WriteLine(persistence.Name);
-
-            Exit += (sender, args) => container.Dispose();
+            Exit += (sender, args) => _container.Dispose();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // noop
+            _container.Register<IModule, SqlPersistenceModule>();
+            _container.Register<IModule, VizualizeDataModule>();
+
+            foreach (var module in _container.ResolveMany<IModule>())
+            {
+                module.Load(_container);
+            }
         }
 
         protected override Window CreateShell()
