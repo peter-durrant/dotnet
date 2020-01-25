@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows;
-using Application.Views;
-using Hdd.Application.Core;
+﻿using System.Windows;
+using Hdd.Application.Core.Views;
 using Hdd.SqlPersistence.Module;
 using Hdd.VisualizeData.Module;
 using Prism.DryIoc;
@@ -28,14 +26,6 @@ namespace Application
                     ModuleType = typeof(VizualizeDataModule).AssemblyQualifiedName
                 });
             return moduleCatalog;
-        }
-
-        protected override void OnInitialized()
-        {
-            var persistence = Container.Resolve<IPersistence>();
-            Console.WriteLine(persistence.Name);
-
-            base.OnInitialized();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

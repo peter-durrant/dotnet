@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Application.Views
+namespace Hdd.Application.Core.Views
 {
     public partial class Shell : Window
     {
