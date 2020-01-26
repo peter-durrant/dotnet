@@ -13,10 +13,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static regions:RegionNames.TabRegion}"/>
         <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static regions:RegionNames.ContentRegion}"/>
-        <Grid Grid.Row="2">
+        <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static regions:RegionNames.ConfigurationRegion}"/>
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="1*"/>
