@@ -15,7 +15,6 @@ namespace Hdd.Application.Core.Views
 
             regionManager.RegisterViewWithRegion(RegionNames.TabRegion, typeof(DefaultView));
             regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DefaultView));
-            regionManager.RegisterViewWithRegion(RegionNames.ConfigurationRegion, typeof(DefaultView));
             regionManager.RegisterViewWithRegion(RegionNames.NavigationRegion, typeof(DefaultView));
             regionManager.RegisterViewWithRegion(RegionNames.NotificationRegion, typeof(DefaultView));
         }

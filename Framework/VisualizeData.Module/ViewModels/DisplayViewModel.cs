@@ -2,13 +2,13 @@
 using Hdd.VisualizeData.Module.Model;
 using Prism.Mvvm;
 
-namespace Hdd.VisualizeData.Module.ViewModel
+namespace Hdd.VisualizeData.Module.ViewModels
 {
-    public class DisplayVm : BindableBase
+    public class DisplayViewModel : BindableBase
     {
         private readonly DisplayModel _model;
 
-        public DisplayVm(DisplayModel model)
+        public DisplayViewModel(DisplayModel model)
         {
             _model = model ?? throw new ArgumentNullException(nameof(model));
         }

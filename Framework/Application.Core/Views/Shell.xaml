@@ -6,7 +6,6 @@
         mc:Ignorable="d"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:regions="clr-namespace:Hdd.Application.Core.Regions"
-        prism:ViewModelLocator.AutoWireViewModel="True"
         Title="Shell" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -17,7 +16,7 @@
         </Grid.RowDefinitions>
         <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static regions:RegionNames.TabRegion}"/>
         <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static regions:RegionNames.ContentRegion}"/>
-        <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static regions:RegionNames.ConfigurationRegion}"/>
+        <ListBox Grid.Row="2" prism:RegionManager.RegionName="{x:Static regions:RegionNames.ConfigurationRegion}"/>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
