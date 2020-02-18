@@ -3,27 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:regions="clr-namespace:Hdd.Application.Core.Regions"
         Title="Shell" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static regions:RegionNames.TabRegion}"/>
-        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static regions:RegionNames.ContentRegion}"/>
-        <ListBox Grid.Row="2" prism:RegionManager.RegionName="{x:Static regions:RegionNames.ConfigurationRegion}"/>
-        <Grid Grid.Row="3">
+        <TabControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static regions:RegionNames.TabRegion}" />
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <ContentControl Grid.Column="0" prism:RegionManager.RegionName="{x:Static regions:RegionNames.NavigationRegion}"/>
-            <ContentControl Grid.Column="1" prism:RegionManager.RegionName="{x:Static regions:RegionNames.NotificationRegion}"/>
+            <ContentControl Grid.Column="0"
+                            prism:RegionManager.RegionName="{x:Static regions:RegionNames.NavigationRegion}" />
+            <ContentControl Grid.Column="1"
+                            prism:RegionManager.RegionName="{x:Static regions:RegionNames.NotificationRegion}" />
         </Grid>
     </Grid>
 </Window>

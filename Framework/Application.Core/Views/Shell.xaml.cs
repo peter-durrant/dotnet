@@ -13,8 +13,7 @@ namespace Hdd.Application.Core.Views
 
             _ = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
 
-            regionManager.RegisterViewWithRegion(RegionNames.TabRegion, typeof(DefaultView));
-            regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DefaultView));
+            regionManager.RegisterViewWithRegion(RegionNames.TabRegion, typeof(ConfigurationContainerView));
             regionManager.RegisterViewWithRegion(RegionNames.NavigationRegion, typeof(DefaultView));
             regionManager.RegisterViewWithRegion(RegionNames.NotificationRegion, typeof(DefaultView));
         }

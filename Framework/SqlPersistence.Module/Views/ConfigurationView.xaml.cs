@@ -2,7 +2,7 @@
 
 namespace Hdd.SqlPersistence.Module.Views
 {
-    public partial class ConfigurationView : UserControl
+    public partial class ConfigurationView : TabItem
     {
         public ConfigurationView()
         {
